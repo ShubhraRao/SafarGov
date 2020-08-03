@@ -20,17 +20,17 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
   final firestoreInstance = Firestore.instance;
   bool isLoading = false;
 
-  var databaseReference= Firestore.instance;
+  var databaseReference = Firestore.instance;
 
   @override
   void initState() {
     // TODO: implement initState
     databaseReference
-          .collection("location_travel")
-          .document(doc.documentID)
-          .updateData({
-        'erSeen': "YES",
-      }).then((value) => print("Dome"));
+        .collection("location_travel")
+        .document(doc.documentID)
+        .updateData({
+      'erSeen': "YES",
+    }).then((value) => print("Dome"));
     super.initState();
   }
 
@@ -67,11 +67,17 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        SocialShare.shareWhatsapp("Pothole Details:\n" +doc.data["address"] + ", (" + doc.data["lat"].toString() +", " + doc.data["lon"].toString()+" ). Sent from SafarGov Mobile App")
+                        SocialShare.shareWhatsapp("Pothole Details:\n" +
+                                doc.data["address"] +
+                                ", (" +
+                                doc.data["lat"].toString() +
+                                ", " +
+                                doc.data["lon"].toString() +
+                                " ). Sent from SafarGov Mobile App")
                             .then((data) {
                           print(data);
                         });
-                      }, 
+                      },
                       child: Row(
                         children: <Widget>[
                           Padding(
@@ -89,7 +95,13 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
                     GestureDetector(
                       onTap: () {
                         SocialShare.shareSms(
-                                "Pothole Details:\n" +doc.data["address"] + ", (" + doc.data["lat"].toString() +", " + doc.data["lon"].toString()+" ). Sent from SafarGov Mobile App",
+                                "Pothole Details:\n" +
+                                    doc.data["address"] +
+                                    ", (" +
+                                    doc.data["lat"].toString() +
+                                    ", " +
+                                    doc.data["lon"].toString() +
+                                    " ). Sent from SafarGov Mobile App",
                                 url: "",
                                 trailingText: "")
                             .then((data) {
@@ -109,7 +121,6 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
                     // Divider(
                     //   color: Colors.grey,
                     // ),
-                    
                   ],
                 ),
               ),
@@ -126,49 +137,107 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
         ),
         body: Column(
           children: <Widget>[
-            DataTable(
-              columns: [
-                DataColumn(label: Text("DETAILS")),
-                DataColumn(label: SizedBox(height: 0.0))
-              ],
-              rows: [
-                DataRow(cells: [
-                  DataCell(Text("Address: ")),
-                  DataCell(Text(doc.data["address"])),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Priority: ")),
-                  DataCell(Text(doc.data["NumberOfReportings"].toString())),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Ward: ")),
-                  DataCell(Text(doc.data["subLocality"])),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Pincode: ")),
-                  DataCell(Text(doc.data["pincode"])),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Date: ")),
-                  DataCell(
-                    Text(Jiffy(DateTime.parse(doc.data["timeStamp"].toDate().toString()))
-                        .yMMMMEEEEdjm),
+            (doc.data["landmark"] != null)
+                ? DataTable(
+                    columns: [
+                      DataColumn(label: Text("DETAILS")),
+                      DataColumn(label: SizedBox(height: 0.0))
+                    ],
+                    rows: [
+                      DataRow(cells: [
+                        DataCell(Text("Address: ")),
+                        DataCell(Text(doc.data["address"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Priority: ")),
+                        DataCell(
+                            Text(doc.data["NumberOfReportings"].toString())),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Ward: ")),
+                        DataCell(Text(doc.data["subLocality"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Pincode: ")),
+                        DataCell(Text(doc.data["pincode"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Date: ")),
+                        DataCell(
+                          Text(Jiffy(DateTime.parse(
+                                  doc.data["timeStamp"].toDate().toString()))
+                              .yMMMMEEEEdjm),
+                        ),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Location: ")),
+                        DataCell(
+                          Text(doc.data["lat"].toString() +
+                              ", " +
+                              doc.data["lon"].toString()),
+                        ),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Source: ")),
+                        DataCell(
+                          Text(doc.data["source"]),
+                        ),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Landmark: ")),
+                        DataCell(
+                          Text(doc.data["landmark"]),
+                        ),
+                      ]),
+                    ],
+                  )
+                : DataTable(
+                    columns: [
+                      DataColumn(label: Text("DETAILS")),
+                      DataColumn(label: SizedBox(height: 0.0))
+                    ],
+                    rows: [
+                      DataRow(cells: [
+                        DataCell(Text("Address: ")),
+                        DataCell(Text(doc.data["address"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Priority: ")),
+                        DataCell(
+                            Text(doc.data["NumberOfReportings"].toString())),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Ward: ")),
+                        DataCell(Text(doc.data["subLocality"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Pincode: ")),
+                        DataCell(Text(doc.data["pincode"])),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Date: ")),
+                        DataCell(
+                          Text(Jiffy(DateTime.parse(
+                                  doc.data["timeStamp"].toDate().toString()))
+                              .yMMMMEEEEdjm),
+                        ),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Location: ")),
+                        DataCell(
+                          Text(doc.data["lat"].toString() +
+                              ", " +
+                              doc.data["lon"].toString()),
+                        ),
+                      ]),
+                      DataRow(cells: [
+                        DataCell(Text("Source: ")),
+                        DataCell(
+                          Text(doc.data["source"]),
+                        ),
+                      ]),
+                    ],
                   ),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Location: ")),
-                  DataCell(
-                    Text(doc.data["lat"].toString() + ", " + doc.data["lon"].toString()),
-                  ),
-                ]),
-                DataRow(cells: [
-                  DataCell(Text("Source: ")),
-                  DataCell(
-                    Text(doc.data["source"]),
-                  ),
-                ]),
-              ],
-            ),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 16.0),
               child: RaisedButton(
@@ -181,9 +250,7 @@ class _ERPotholeDetailsState extends State<ERPotholeDetails> {
                 padding: EdgeInsets.all(12),
                 color: Color(0xFF11249F),
                 child: Text('Share details',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16)),
+                    style: TextStyle(color: Colors.white, fontSize: 16)),
               ),
             ),
           ],
